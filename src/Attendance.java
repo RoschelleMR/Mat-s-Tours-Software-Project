@@ -1,28 +1,32 @@
 package src;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.*;
 
+import java.awt.*;
+import javax.swing.*;
 
-
-public class Attendance {
+public class Attendance extends JFrame{
 
     private ArrayList<Student> studlist;
-    
+
     public static void main(String[] args) {
-        
+        //Small test vv
+        // Attendance obj = new Attendance();
+        // ArrayList<String> result = obj.getStudentNames();
+        // System.out.println(result);  
     }
 
-    private ArrayList<Student> loadstudents(String studfile){
+    private ArrayList<Student> loadstudents(String studfile) {
         Scanner studscan = null;
         studlist = new ArrayList<Student>();
-        try{
+        try {
             studscan = new Scanner(new File(studfile));
-            while(studscan.hasNext())
-            {
-                String [] nextLine = studscan.nextLine().split(" ");
-                String name = nextLine[0]+ " "+nextLine[1];
+            while (studscan.hasNext()) {
+                String[] nextLine = studscan.nextLine().split(" ");
+                String name = nextLine[0] + " " + nextLine[1];
                 // the nextLine indexes are not accurate as the form of
                 // the student file has not been fully determined as yet
                 String address = nextLine[2];
@@ -38,24 +42,29 @@ public class Attendance {
             studscan.close();
         }
 
-        catch(IOException e){}
+        catch (IOException e) {
+        }
 
         return studlist;
     }
 
-    private ArrayList<String> getStudentNames(){
+    public ArrayList<String> getStudentNames() {
+        //might place the studlist in the class that will have the attendance gui
+        studlist = loadstudents("files/students.txt");
         ArrayList<String> studentNames = new ArrayList<String>();
-        for (Student stud: studlist){
+        for (Student stud : studlist) {
             studentNames.add(stud.getName());
         }
 
         return studentNames;
     }
 
-    private void markAttendance(String studfile){
+    private void markAttendance(String studfile) {
         File studFile = new File(studfile);
 
-        
     }
+
+    //creating a text file of the attendance record
+    //by adding the selections of the the gui
 
 }
