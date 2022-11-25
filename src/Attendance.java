@@ -11,12 +11,16 @@ import javax.swing.*;
 public class Attendance extends JFrame{
 
     private ArrayList<Student> studlist;
+    private Attendance thisScr; 
 
     public static void main(String[] args) {
         //Small test vv
         // Attendance obj = new Attendance();
         // ArrayList<String> result = obj.getStudentNames();
-        // System.out.println(result);  
+        // System.out.println(result);
+
+        //temporary
+        new MarkAttendanceScreen(new Attendance());
     }
 
     private ArrayList<Student> loadstudents(String studfile) {
@@ -59,9 +63,14 @@ public class Attendance extends JFrame{
         return studentNames;
     }
 
-    private void markAttendance(String studfile) {
+    public void markAttendance(String studfile) {
         File studFile = new File(studfile);
 
+    }
+
+    //testing mark attendance screen
+    public void MarkScreen(){
+        new MarkAttendanceScreen(thisScr);
     }
 
     //creating a text file of the attendance record
