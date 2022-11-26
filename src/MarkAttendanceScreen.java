@@ -17,7 +17,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Properties;
 
-public class MarkAttendanceScreen extends JFrame{
+public class MarkAttendanceScreen extends JFrame {
 
     private MarkAttendanceScreen thisScr;
     private Attendance attendanceSheet;
@@ -26,53 +26,55 @@ public class MarkAttendanceScreen extends JFrame{
     private JButton saveButton;
     private JButton closeButton;
 
-    public MarkAttendanceScreen(Attendance attendance){
+    private JDatePickerImpl datePicker;
+
+    public MarkAttendanceScreen(Attendance attendance) {
         attendanceSheet = attendance;
 
         setTitle("MARK ATTENDANCE");
 
         buttonPanel = new JPanel();
         mainPanel = new JPanel();
-        mainPanel.setLayout(new GridLayout(6,1,5,15));
+        mainPanel.setLayout(new GridLayout(6, 1, 5, 15));
 
-        String [] studnames = attendanceSheet.getStudentNames().toArray(new String[attendanceSheet.getStudentNames().size()]);
+        String[] studnames = attendanceSheet.getStudentNames()
+                .toArray(new String[attendanceSheet.getStudentNames().size()]);
 
         mainPanel.add(new JLabel("Student: "));
         studentBox = new JComboBox<String>(studnames);
         mainPanel.add(studentBox);
 
         mainPanel.add(new JLabel("Period"));
-        String [] periods = {"Morning", "Evening"};
+        String[] periods = { "Morning", "Evening" };
         periodBox = new JComboBox<String>(periods);
         mainPanel.add(periodBox);
 
         mainPanel.add(new JLabel("Present/Absent"));
-        String [] presence = {"Present", "Absent"};
+        String[] presence = { "Present", "Absent" };
         presenceBox = new JComboBox<String>(presence);
         mainPanel.add(presenceBox);
 
         mainPanel.add(new JLabel("Date:"));
 
-        // Date 
-        
+        // Date
+
         UtilCalendarModel model = new UtilCalendarModel();
-        
+
         Properties p = new Properties();
         p.put("text.today", "Today");
         p.put("text.month", "Month");
         p.put("text.year", "Year");
         JDatePanelImpl datePanel = new JDatePanelImpl(model, p);
-        JDatePickerImpl datePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());
+        datePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());
 
         model.setSelected(true);
         datePicker.setVisible(true);
         mainPanel.add(datePicker);
 
         // Date
-        
 
         saveButton = new JButton("Save");
-        // saveButton.addActionListener(new saveListener());
+        saveButton.addActionListener(new saveListener());
         buttonPanel.add(saveButton);
 
         closeButton = new JButton("Cancel");
@@ -86,19 +88,14 @@ public class MarkAttendanceScreen extends JFrame{
 
     }
 
-
-
     // save listener
 
-     // Calendar selectedValue = (Calendar) datePicker.getModel().getValue();
-        // Date selectedDate = selectedValue.getTime();
-        // System.out.println(selectedDate);
-
-
-    private class saveListener implements ActionListener{
-        public void actionPerformed(ActionEvent e){
+    private class saveListener implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            String studentName = studentBox.getSelectedItem().toString();
+            String selectedDate = datePicker.getJFormattedTextField().getText();
+            System.out.println(selectedDate);
         }
-      }
+    }
 
-    
 }
