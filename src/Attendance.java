@@ -13,6 +13,20 @@ public class Attendance extends JFrame{
     private ArrayList<Student> studlist;
     private Attendance thisScr; 
 
+    public Attendance(){
+
+        setLayout(new GridLayout(1,1, 5, 0));
+        setTitle("ATTENDANCE SHEET");
+        setSize(1200, 600);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+
+        
+    }
+
+
+
+
     public static void main(String[] args) {
         //Small test vv
         // Attendance obj = new Attendance();
