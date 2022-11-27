@@ -11,11 +11,16 @@ import org.jdatepicker.impl.UtilDateModel;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.PrintWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Properties;
+import java.util.Scanner;
 
 public class MarkAttendanceScreen extends JFrame {
 
@@ -29,8 +34,8 @@ public class MarkAttendanceScreen extends JFrame {
     private JDatePickerImpl datePicker;
 
     public MarkAttendanceScreen(Attendance attendance) {
+        thisScr = this;
         attendanceSheet = attendance;
-
         setTitle("MARK ATTENDANCE");
 
         buttonPanel = new JPanel();
@@ -77,8 +82,8 @@ public class MarkAttendanceScreen extends JFrame {
         saveButton.addActionListener(new saveListener());
         buttonPanel.add(saveButton);
 
-        closeButton = new JButton("Cancel");
-        // closeButton.addActionListener(new cancelListener());
+        closeButton = new JButton("Close");
+        closeButton.addActionListener(new closeButtonListener());
         buttonPanel.add(closeButton);
 
         add(mainPanel, BorderLayout.CENTER);
@@ -88,14 +93,64 @@ public class MarkAttendanceScreen extends JFrame {
 
     }
 
+    public void addtoRecord(String attendanceFile, String studentName, String period, String presenceSelected, String dateSelected){
+        File aFile = new File(attendanceFile);
+        File tempFile = new File("files/temp.txt");
+
+        Scanner ascan = null;
+        String fname, lname, periodOfDay, presence, date;
+        String firstname, lastname;
+        
+        try{
+            PrintWriter pw = new PrintWriter(tempFile);
+            String [] fullStudName = studentName.split(" ");
+            firstname = fullStudName[0];
+            lastname = fullStudName[1];
+            pw.println(firstname+" "+lastname+" "+period+" "+presenceSelected+" "+dateSelected);
+
+            ascan = new Scanner(aFile);
+            while(ascan.hasNext()){
+                fname = ascan.next();
+                lname = ascan.next();
+                periodOfDay = ascan.next();
+                presence = ascan.next();
+                date = ascan.next();
+
+                pw.println(fname+" "+lname+" "+periodOfDay+" "+presence+" "+date);
+
+            }
+            ascan.close();
+            pw.flush();
+            pw.close();
+
+            aFile.delete();
+            tempFile.renameTo(aFile);
+        }
+        catch(Exception e){}
+    }
+
     // save listener
 
     private class saveListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             String studentName = studentBox.getSelectedItem().toString();
             String selectedDate = datePicker.getJFormattedTextField().getText();
-            System.out.println(selectedDate);
+            String periodOfday = periodBox.getSelectedItem().toString();
+            String presenceSelected = presenceBox.getSelectedItem().toString();
+
+            addtoRecord("files/attendanceRecord.txt", studentName, periodOfday, presenceSelected, selectedDate);
         }
+    }
+
+    // close listener
+
+    private class closeButtonListener implements ActionListener
+    {
+        public void actionPerformed(ActionEvent e)
+        {
+            thisScr.setVisible(false);
+        }
+
     }
 
 }
