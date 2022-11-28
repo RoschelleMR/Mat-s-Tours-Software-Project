@@ -7,21 +7,88 @@ import java.util.*;
 
 import java.awt.*;
 import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.table.DefaultTableModel;
 
 public class Attendance extends JFrame{
 
     private ArrayList<Student> studlist;
     private Attendance thisScr; 
 
+    private ArrayList<String> studNames, eveningList;
+    private DefaultTableModel morning_model, evening_model;
+    private JTable morning_table, evening_table;
+
+    private JButton markButton;
+
     public Attendance(){
 
-        setLayout(new GridLayout(1,1, 5, 0));
+        // setLayout(new GridLayout(2,2, 5, 5));
         setTitle("ATTENDANCE SHEET");
-        setSize(1200, 600);
+        setSize(1200, 700);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        
+        // MORNING PANEL
+
+        JPanel morningPanel = new JPanel();
+        morningPanel.setBounds(10, 10, 500, 500);
+        // morningPanel.setBackground(Color.GREEN);
+
+        JLabel morningLabel = new JLabel();
+        morningLabel.setText("Morning Attendance");
+        morningLabel.setVerticalAlignment(JLabel.BOTTOM);
+        morningLabel.setHorizontalAlignment(JLabel.CENTER);
+        morningLabel.setFont(new Font("Ariel",Font.BOLD,20));
+        morningPanel.add(morningLabel);
+
+
+        studNames = getStudentNames();
+        String[] columnNames = {"Student", "Present/Absent", "Date"};
+        morning_model = new DefaultTableModel(columnNames,0);
+        morning_table = new JTable(morning_model);
+
+        JScrollPane scrollPane_Morning = new JScrollPane(morning_table);
+        morningPanel.add(scrollPane_Morning);
+
+        // EVENING PANEL
+
+        JPanel eveningPanel = new JPanel();
+        // eveningPanel.setBackground(Color.GREEN);
+        eveningPanel.setBounds(520, 10, 500, 500);
+
+        JLabel eveningLabel = new JLabel();
+        eveningLabel.setText("Evening Attendance");
+        eveningLabel.setVerticalAlignment(JLabel.BOTTOM);
+        eveningLabel.setHorizontalAlignment(JLabel.CENTER);
+        eveningLabel.setFont(new Font("Ariel",Font.BOLD,20));
+        eveningPanel.add(eveningLabel);
+
+        evening_model = new DefaultTableModel(columnNames,0);
+        evening_table = new JTable(evening_model);
+        JScrollPane scrollPane_Evening = new JScrollPane(evening_table);
+        eveningPanel.add(scrollPane_Evening);
+
+        showTable("files/attendanceRecord.txt");
+
+
+        //  BUTTON PANEL
+        // button not aligned correctly
+
+        JPanel buttonPanel = new JPanel();
+        // buttonPanel.setBackground(Color.red);
+        buttonPanel.setBounds(0, 250, 50, 50);
+
+        markButton = new JButton("Mark Attendance");
+        // markButton.addActionListener(new MarkAttendance());
+        buttonPanel.add(markButton);
+
+        add(morningPanel);
+        add(eveningPanel);
+        add(buttonPanel);
+
+        setVisible(true);
+
     }
 
 
@@ -34,7 +101,10 @@ public class Attendance extends JFrame{
         // System.out.println(result);
 
         //temporary
-        new MarkAttendanceScreen(new Attendance());
+        // new MarkAttendanceScreen(new Attendance());
+        new Attendance().showTable("files/attendanceRecord.txt");
+
+        // new Attendance();
     }
 
     private ArrayList<Student> loadstudents(String studfile) {
@@ -55,7 +125,7 @@ public class Attendance extends JFrame{
 
                 Student student = new Student(name, address, highschool, parentName, parentTel, paymentPlan);
                 studlist.add(student);
-            }
+            } 
 
             studscan.close();
         }
@@ -77,17 +147,34 @@ public class Attendance extends JFrame{
         return studentNames;
     }
 
-    public void markAttendance(String studfile) {
-        File studFile = new File(studfile);
+    public void showTable(String aFile){
+        Scanner ascan = null;
+    try{
+        ascan  = new Scanner(new File(aFile));
+        while(ascan.hasNext())
+        {
+            // String [] nextLine = ascan.nextLine().split(" ");
+            String name = ascan.next()+" "+ascan.next();
+            String period = ascan.next();
+            String presence = ascan.next();
+            String date = ascan.next();
+            
+            
+            if (period.equals("Evening")){
+                String [] recordItem = {name, presence, date};
+                evening_model.addRow(recordItem);
+            }
+            else if (period.equals("Morning")){
+                String [] recordItem = {name, presence, date};
+                morning_model.addRow(recordItem);
+            }
+        }
 
+        ascan.close();
+      }
+    catch(IOException e){}
     }
 
-    //testing mark attendance screen
-    public void MarkScreen(){
-        new MarkAttendanceScreen(thisScr);
-    }
 
-    //creating a text file of the attendance record
-    //by adding the selections of the the gui
-
+    
 }
