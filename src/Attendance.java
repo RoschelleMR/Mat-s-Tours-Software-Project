@@ -10,6 +10,8 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.table.DefaultTableModel;
 
+import java.awt.event.*;
+
 public class Attendance extends JFrame{
 
     private ArrayList<Student> studlist;
@@ -19,11 +21,14 @@ public class Attendance extends JFrame{
     private DefaultTableModel morning_model, evening_model;
     private JTable morning_table, evening_table;
 
-    private JButton markButton;
+    private JButton markButton, refreshButton;
 
     public Attendance(){
 
+        thisScr = this;
+
         // setLayout(new GridLayout(2,2, 5, 5));
+        setLayout(null);
         setTitle("ATTENDANCE SHEET");
         setSize(1200, 700);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -69,19 +74,24 @@ public class Attendance extends JFrame{
         JScrollPane scrollPane_Evening = new JScrollPane(evening_table);
         eveningPanel.add(scrollPane_Evening);
 
-        showTable("files/attendanceRecord.txt");
+        
 
+        showTable("files/attendanceRecord.txt");
 
         //  BUTTON PANEL
         // button not aligned correctly
 
         JPanel buttonPanel = new JPanel();
         // buttonPanel.setBackground(Color.red);
-        buttonPanel.setBounds(0, 250, 50, 50);
+        buttonPanel.setBounds(500, 0, 500, 50);
 
         markButton = new JButton("Mark Attendance");
-        // markButton.addActionListener(new MarkAttendance());
+        markButton.addActionListener(new markListener());
         buttonPanel.add(markButton);
+        
+        refreshButton = new JButton("Refresh Tables");
+        refreshButton.addActionListener(new refreshListener());
+        buttonPanel.add(refreshButton);
 
         add(morningPanel);
         add(eveningPanel);
@@ -102,7 +112,7 @@ public class Attendance extends JFrame{
 
         //temporary
         // new MarkAttendanceScreen(new Attendance());
-        new Attendance().showTable("files/attendanceRecord.txt");
+        new Attendance();
 
         // new Attendance();
     }
@@ -137,7 +147,6 @@ public class Attendance extends JFrame{
     }
 
     public ArrayList<String> getStudentNames() {
-        //might place the studlist in the class that will have the attendance gui
         studlist = loadstudents("files/students.txt");
         ArrayList<String> studentNames = new ArrayList<String>();
         for (Student stud : studlist) {
@@ -163,6 +172,7 @@ public class Attendance extends JFrame{
             if (period.equals("Evening")){
                 String [] recordItem = {name, presence, date};
                 evening_model.addRow(recordItem);
+                
             }
             else if (period.equals("Morning")){
                 String [] recordItem = {name, presence, date};
@@ -175,6 +185,34 @@ public class Attendance extends JFrame{
     catch(IOException e){}
     }
 
+
+    private class markListener implements ActionListener{
+
+        public void actionPerformed(ActionEvent e) {
+
+            new MarkAttendanceScreen(thisScr);
+            
+            
+            
+        }
+        
+    }
+
+    private class refreshListener implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            // evening_model.fireTableDataChanged();
+            // morning_model.fireTableDataChanged();
+            // evening_table.revalidate();
+            // morning_table.revalidate();
+
+            thisScr.dispose();
+            new Attendance();
+            
+        }
+        
+    }
 
     
 }
