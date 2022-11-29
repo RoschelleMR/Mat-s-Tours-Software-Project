@@ -36,6 +36,8 @@ public class MarkAttendanceScreen extends JFrame {
     public MarkAttendanceScreen(Attendance attendance) {
         thisScr = this;
         attendanceSheet = attendance;
+
+
         setTitle("MARK ATTENDANCE");
 
         buttonPanel = new JPanel();
@@ -125,8 +127,36 @@ public class MarkAttendanceScreen extends JFrame {
 
             aFile.delete();
             tempFile.renameTo(aFile);
+
         }
         catch(Exception e){}
+    }
+
+    //ensures the date selected isn't after today's date
+    public Boolean dateChecker(String date){
+        Boolean state;
+        Date currentDate = new Date();
+        Date enteredDate = null;
+
+        try {
+            enteredDate = new SimpleDateFormat("dd/MM/yyyy").parse(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        
+        if(enteredDate.after(currentDate)){
+            JOptionPane.showMessageDialog(thisScr,"Cannot select a date that is after today's date",
+        "Error",
+        JOptionPane.ERROR_MESSAGE);
+
+        state = false;
+
+        }
+        else{
+            state = true;
+        }
+
+        return state;
     }
 
     // save listener
@@ -138,7 +168,10 @@ public class MarkAttendanceScreen extends JFrame {
             String periodOfday = periodBox.getSelectedItem().toString();
             String presenceSelected = presenceBox.getSelectedItem().toString();
 
-            addtoRecord("files/attendanceRecord.txt", studentName, periodOfday, presenceSelected, selectedDate);
+            if (dateChecker(selectedDate)){
+                addtoRecord("files/attendanceRecord.txt", studentName, periodOfday, presenceSelected, selectedDate);
+            }
+
         }
     }
 
