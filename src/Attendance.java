@@ -27,17 +27,18 @@ public class Attendance extends JFrame{
 
         thisScr = this;
 
-        // setLayout(new GridLayout(2,2, 5, 5));
-        setLayout(null);
+        setLayout(new GridLayout(1,3, 10, 0));
+        // setLayout(null);
         setTitle("ATTENDANCE SHEET");
-        setSize(1200, 700);
+        setSize(1500, 500);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
         // MORNING PANEL
 
         JPanel morningPanel = new JPanel();
-        morningPanel.setBounds(10, 10, 500, 500);
+        morningPanel.setBorder(BorderFactory.createEmptyBorder(0, 30, 0, 0)); 
+        // morningPanel.setBounds(10, 10, 500, 500);
         // morningPanel.setBackground(Color.GREEN);
 
         JLabel morningLabel = new JLabel();
@@ -60,7 +61,7 @@ public class Attendance extends JFrame{
 
         JPanel eveningPanel = new JPanel();
         // eveningPanel.setBackground(Color.GREEN);
-        eveningPanel.setBounds(520, 10, 500, 500);
+        // eveningPanel.setBounds(520, 10, 500, 500);
 
         JLabel eveningLabel = new JLabel();
         eveningLabel.setText("Evening Attendance");
@@ -83,7 +84,7 @@ public class Attendance extends JFrame{
 
         JPanel buttonPanel = new JPanel();
         // buttonPanel.setBackground(Color.red);
-        buttonPanel.setBounds(500, 0, 500, 50);
+        // buttonPanel.setBounds(500, 0, 500, 50);
 
         markButton = new JButton("Mark Attendance");
         markButton.addActionListener(new markListener());
@@ -260,6 +261,8 @@ public class Attendance extends JFrame{
         }
         
     }
+
+    
 
     
 }
