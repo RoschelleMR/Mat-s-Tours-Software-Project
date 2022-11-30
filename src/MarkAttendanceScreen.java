@@ -11,16 +11,20 @@ import org.jdatepicker.impl.UtilDateModel;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Properties;
-import java.util.Scanner;
+import java.util.*;
+import java.util.List;
 
 public class MarkAttendanceScreen extends JFrame {
 
@@ -97,40 +101,55 @@ public class MarkAttendanceScreen extends JFrame {
 
     public void addtoRecord(String attendanceFile, String studentName, String period, String presenceSelected, String dateSelected){
         File aFile = new File(attendanceFile);
-        File tempFile = new File("files/temp.txt");
+        String firstname, lastname, currentLine;
 
-        Scanner ascan = null;
-        String fname, lname, periodOfDay, presence, date;
-        String firstname, lastname;
-        
-        try{
-            PrintWriter pw = new PrintWriter(tempFile);
+        try{ 
+            
             String [] fullStudName = studentName.split(" ");
             firstname = fullStudName[0];
             lastname = fullStudName[1];
-            pw.println(firstname+" "+lastname+" "+period+" "+presenceSelected+" "+dateSelected);
+            currentLine = firstname+" "+lastname+" "+period+" "+presenceSelected+" "+dateSelected;
 
-            ascan = new Scanner(aFile);
-            while(ascan.hasNext()){
-                fname = ascan.next();
-                lname = ascan.next();
-                periodOfDay = ascan.next();
-                presence = ascan.next();
-                date = ascan.next();
+            Boolean state = true;
+            List<String> allLines = Files.readAllLines(Paths.get("files/attendanceRecord.txt"));
+            for (String fileLine : allLines) {
+                if(currentLine.equals(fileLine)){
+                    state = false;
+                    String studfname = new String();
+                    String studlname = new String();
+                    String studfullname = new String();
+                    String nextLine[] = currentLine.split(" ");
+                    studfname = nextLine[0];
+                    studlname = nextLine[1];
+                    studfullname = studfname + " " + studlname;
+                    JOptionPane.showMessageDialog(thisScr,"You already marked " + studfullname + " " + "for the selected date","Duplicate Detected",
+                    JOptionPane.PLAIN_MESSAGE);
 
-                pw.println(fname+" "+lname+" "+periodOfDay+" "+presence+" "+date);
-
+                    break;
+                }
+                
             }
-            ascan.close();
-            pw.flush();
-            pw.close();
 
-            aFile.delete();
-            tempFile.renameTo(aFile);
+            if(state){
+                File tempFile = new File("files/temp.txt");
+                PrintWriter pw = new PrintWriter(tempFile);
 
+                pw.println(currentLine);
+                for (String fileLine : allLines) {
+                    pw.println(fileLine);
+                    
+                }
+                pw.flush();
+                pw.close();
+
+                aFile.delete();
+                tempFile.renameTo(aFile);
+            }
         }
         catch(Exception e){}
+        
     }
+
 
     //ensures the date selected isn't after today's date
     public Boolean dateChecker(String date){
