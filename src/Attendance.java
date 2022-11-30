@@ -21,7 +21,7 @@ public class Attendance extends JFrame{
     private DefaultTableModel morning_model, evening_model;
     private JTable morning_table, evening_table;
 
-    private JButton markButton, refreshButton;
+    private JButton markButton, refreshButton, editButton;
 
     public Attendance(){
 
@@ -92,6 +92,10 @@ public class Attendance extends JFrame{
         refreshButton = new JButton("Refresh Tables");
         refreshButton.addActionListener(new refreshListener());
         buttonPanel.add(refreshButton);
+
+        editButton = new JButton("Edit Student Attendance");
+        editButton.addActionListener(new editListener());
+        buttonPanel.add(editButton);
 
         add(morningPanel);
         add(eveningPanel);
@@ -183,6 +187,49 @@ public class Attendance extends JFrame{
         ascan.close();
       }
     catch(IOException e){}
+    }
+
+    public String [] loadAttendanceRecordNames(String enteredFile){
+        Scanner studNscan = null;
+        ArrayList <String> studNameList = new ArrayList<String>();
+        try {
+            studNscan = new Scanner(new File(enteredFile));
+            while (studNscan.hasNext()) {
+                String[] nextLine = studNscan.nextLine().split(" ");
+                String name = nextLine[0] + " " + nextLine[1];
+
+                if(studNameList.contains(name)){
+                    continue;
+                }
+                else{
+                    studNameList.add(name);
+                }
+                
+            } 
+
+            studNscan.close();
+        }
+
+        catch (IOException e) {
+        }
+
+        // return studlist;
+        
+        String[] studNameArr = new String[studNameList.size()];
+        studNameArr = studNameList.toArray(studNameArr);
+        return studNameArr;
+    }
+
+    private class editListener implements ActionListener{
+
+        public void actionPerformed(ActionEvent e) {
+
+            new EditAttendanceScreen(thisScr);
+            
+            
+            
+        }
+        
     }
 
 
