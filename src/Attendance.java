@@ -21,31 +21,44 @@ public class Attendance extends JFrame{
     private DefaultTableModel morning_model, evening_model;
     private JTable morning_table, evening_table;
 
-    private JButton markButton, refreshButton, editButton;
+    private JButton markButton, refreshButton, editButton, closeButton;
+
+    private JMenuBar menu;
 
     public Attendance(){
 
         thisScr = this;
 
         setLayout(new GridLayout(1,3, 10, 0));
-        // setLayout(null);
         setTitle("ATTENDANCE SHEET");
-        setSize(1500, 500);
+        setSize(1500, 550);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
+
+        menu = new JMenuBar();
+        menu.setBackground(new Color(15,50,100));
+
+        closeButton = new JButton("EXIT");
+        closeButton.setBackground(Color.red);
+        closeButton.setForeground(Color.white);
+        closeButton.addActionListener(new closeListener());
+        menu.add(closeButton);
+
+        JLabel menuTitle = new JLabel();
+        menuTitle.setText("MAT'S TOURS ATTENDANCE REGISTER");
+        menuTitle.setFont(new Font("Ariel",Font.BOLD,12));
+        menuTitle.setForeground(Color.WHITE);
+        menu.add(menuTitle);
+        setJMenuBar(menu);
 
         // MORNING PANEL
 
         JPanel morningPanel = new JPanel();
         morningPanel.setBorder(BorderFactory.createEmptyBorder(0, 30, 0, 0)); 
-        // morningPanel.setBounds(10, 10, 500, 500);
-        // morningPanel.setBackground(Color.GREEN);
 
         JLabel morningLabel = new JLabel();
-        morningLabel.setText("Morning Attendance");
-        morningLabel.setVerticalAlignment(JLabel.BOTTOM);
-        morningLabel.setHorizontalAlignment(JLabel.CENTER);
-        morningLabel.setFont(new Font("Ariel",Font.BOLD,20));
+        morningLabel.setText("MORNING ATTENDANCE");
+        morningLabel.setFont(new Font("Ariel",Font.BOLD,18));
         morningPanel.add(morningLabel);
 
 
@@ -53,6 +66,11 @@ public class Attendance extends JFrame{
         String[] columnNames = {"Student", "Present/Absent", "Date"};
         morning_model = new DefaultTableModel(columnNames,0);
         morning_table = new JTable(morning_model);
+        morning_table.setRowHeight(20);
+        morning_table.getTableHeader().setFont(new Font("Ariel",Font.BOLD,12));
+        morning_table.getTableHeader().setOpaque(false);
+        morning_table.getTableHeader().setBackground(Color.BLUE);
+        morning_table.getTableHeader().setForeground(Color.white);
 
         JScrollPane scrollPane_Morning = new JScrollPane(morning_table);
         morningPanel.add(scrollPane_Morning);
@@ -60,31 +78,32 @@ public class Attendance extends JFrame{
         // EVENING PANEL
 
         JPanel eveningPanel = new JPanel();
-        // eveningPanel.setBackground(Color.GREEN);
-        // eveningPanel.setBounds(520, 10, 500, 500);
 
         JLabel eveningLabel = new JLabel();
-        eveningLabel.setText("Evening Attendance");
-        eveningLabel.setVerticalAlignment(JLabel.BOTTOM);
-        eveningLabel.setHorizontalAlignment(JLabel.CENTER);
-        eveningLabel.setFont(new Font("Ariel",Font.BOLD,20));
+        eveningLabel.setText("EVENING ATTENDANCE");
+        eveningLabel.setFont(new Font("Ariel",Font.BOLD,18));
         eveningPanel.add(eveningLabel);
 
         evening_model = new DefaultTableModel(columnNames,0);
         evening_table = new JTable(evening_model);
+        evening_table.setRowHeight(20);
+        evening_table.getTableHeader().setOpaque(false);
+        evening_table.getTableHeader().setBackground(Color.BLUE);
+        evening_table.getTableHeader().setForeground(Color.white);
+        evening_table.getTableHeader().setFont(new Font("Ariel",Font.BOLD,12));
+
         JScrollPane scrollPane_Evening = new JScrollPane(evening_table);
         eveningPanel.add(scrollPane_Evening);
 
         
 
+        //shows the table data
         showTable("files/attendanceRecord.txt");
 
         //  BUTTON PANEL
-        // button not aligned correctly
 
         JPanel buttonPanel = new JPanel();
-        // buttonPanel.setBackground(Color.red);
-        // buttonPanel.setBounds(500, 0, 500, 50);
+
 
         markButton = new JButton("Mark Attendance");
         markButton.addActionListener(new markListener());
@@ -98,6 +117,7 @@ public class Attendance extends JFrame{
         editButton.addActionListener(new editListener());
         buttonPanel.add(editButton);
 
+
         add(morningPanel);
         add(eveningPanel);
         add(buttonPanel);
@@ -110,16 +130,9 @@ public class Attendance extends JFrame{
 
 
     public static void main(String[] args) {
-        //Small test vv
-        // Attendance obj = new Attendance();
-        // ArrayList<String> result = obj.getStudentNames();
-        // System.out.println(result);
 
-        //temporary
-        // new MarkAttendanceScreen(new Attendance());
         new Attendance();
 
-        // new Attendance();
     }
 
     private ArrayList<Student> loadstudents(String studfile) {
@@ -262,7 +275,15 @@ public class Attendance extends JFrame{
         
     }
 
-    
+    private class closeListener implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            thisScr.dispose();            
+        }
+        
+    }
+
 
     
 }
