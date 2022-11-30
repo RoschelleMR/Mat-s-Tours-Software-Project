@@ -60,7 +60,7 @@ public class MarkAttendanceScreen extends JFrame {
         periodBox = new JComboBox<String>(periods);
         mainPanel.add(periodBox);
 
-        mainPanel.add(new JLabel("Present/Absent"));
+        mainPanel.add(new JLabel("Attendance Status"));
         String[] presence = { "Present", "Absent" };
         presenceBox = new JComboBox<String>(presence);
         mainPanel.add(presenceBox);
@@ -105,9 +105,9 @@ public class MarkAttendanceScreen extends JFrame {
 
         try{ 
             
-            String [] fullStudName = studentName.split(" ");
-            firstname = fullStudName[0];
-            lastname = fullStudName[1];
+            String [] next = studentName.split(" ");
+            firstname = next[0];
+            lastname = next[1];
             currentLine = firstname+" "+lastname+" "+period+" "+presenceSelected+" "+dateSelected;
 
             Boolean state = true;
@@ -177,6 +177,8 @@ public class MarkAttendanceScreen extends JFrame {
 
         return state;
     }
+
+
 
     // save listener
 
