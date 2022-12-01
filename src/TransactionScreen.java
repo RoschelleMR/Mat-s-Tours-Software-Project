@@ -219,9 +219,29 @@ class MyFrame
 			}
 			
 			
-			addTransaction("files/transactionrecord.txt",studentName,money,ddate,plan,ptype,rnum);	
-			dispose();
-            setVisible(false);
+			if ((studentName.isEmpty()||money.isEmpty())||(ptype=="Wire Transfer"&&rnum.isEmpty()))
+			{
+    			JOptionPane.showMessageDialog(c,"One of the required fields is empty!", "Error", JOptionPane.ERROR_MESSAGE);
+			}else{
+				try 
+				{ 
+					Integer.parseInt(money); 
+					if (studentName.matches("[a-zA-Z]+ [a-zA-Z]+")){
+						addTransaction("files/transactionrecord.txt",studentName,money,ddate,plan,ptype,rnum); 
+						dispose();
+						setVisible(false);
+					}else{
+						JOptionPane.showMessageDialog(c,"Only letters can be entered as names", "Error", JOptionPane.ERROR_MESSAGE);
+					}
+					
+				}  
+					catch (NumberFormatException p)  
+				{ 
+					JOptionPane.showMessageDialog(c,"Only numbers can be entered as payment amounts", "Error", JOptionPane.ERROR_MESSAGE); 
+				} 
+				
+			
+			}
             
 		}
 
