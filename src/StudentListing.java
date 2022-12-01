@@ -32,7 +32,7 @@ public class StudentListing extends JFrame{
 
     private JMenuBar menu;
     private JMenu privilegesJMenu;
-    private JMenuItem attendanceItem, transItem;
+    private JMenuItem attendanceItem, transItem, addStudItem;
 
     private TableRowSorter<DefaultTableModel> sorter;
 
@@ -81,6 +81,10 @@ public class StudentListing extends JFrame{
         transItem = new JMenuItem("Transcations");
         transItem.addActionListener(new transcationListener());
         privilegesJMenu.add(transItem);
+
+        addStudItem = new JMenuItem("Add Student");
+        addStudItem.addActionListener(new addStudListener());
+        privilegesJMenu.add(addStudItem);
 
 
         menu.add(privilegesJMenu);
@@ -216,6 +220,15 @@ public class StudentListing extends JFrame{
         public void actionPerformed(ActionEvent e)
         {
             new TransactionScreen();
+        }
+    }
+
+    
+    private class addStudListener implements ActionListener
+    {
+        public void actionPerformed(ActionEvent e)
+        {
+            new StudentFile();
         }
     }
 
