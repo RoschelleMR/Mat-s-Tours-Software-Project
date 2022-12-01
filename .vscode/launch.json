@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Launch UserInterface",
+            "request": "launch",
+            "mainClass": "src.UserInterface",
+            "projectName": "Mats-Tours_c4067807"
+        },
+        {
+            "type": "java",
             "name": "Launch TransactionScreen",
             "request": "launch",
             "mainClass": "src.TransactionScreen",
