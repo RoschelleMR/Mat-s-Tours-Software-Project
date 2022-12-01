@@ -17,7 +17,6 @@ public class Attendance extends JFrame{
     private ArrayList<Student> studlist;
     private Attendance thisScr; 
 
-    private ArrayList<String> studNames, eveningList;
     private DefaultTableModel morning_model, evening_model;
     private JTable morning_table, evening_table;
 
@@ -67,7 +66,6 @@ public class Attendance extends JFrame{
         morningPanel.add(morningLabel);
 
 
-        studNames = getStudentNames();
         String[] columnNames = {"Student", "Present/Absent", "Date"};
         morning_model = new DefaultTableModel(columnNames,0);
         morning_table = new JTable(morning_model);
