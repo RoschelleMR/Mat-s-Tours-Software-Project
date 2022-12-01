@@ -1,3 +1,4 @@
+package src;
 public class Transaction {
     
     private String name;
