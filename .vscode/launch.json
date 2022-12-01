@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Launch TransactionScreen",
+            "request": "launch",
+            "mainClass": "src.TransactionScreen",
+            "projectName": "Mats-Tours_454ff95f"
+        },
+        {
+            "type": "java",
             "name": "Launch Attendance",
             "request": "launch",
             "mainClass": "src.Attendance",

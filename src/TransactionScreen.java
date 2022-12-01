@@ -1,3 +1,4 @@
+package src;
 
 
 import java.io.BufferedReader;
@@ -219,7 +220,7 @@ class MyFrame
 			}
 			
 			
-			addTransaction("transactionrecord.txt",studentName,money,ddate,plan,ptype,rnum);	
+			addTransaction("files/transactionrecord.txt",studentName,money,ddate,plan,ptype,rnum);	
 			dispose();
             setVisible(false);
             
@@ -256,7 +257,7 @@ class MyFrame
             currentLine = studentName+" Paid "+money+" "+ddate+" "+plan+" "+ptype+" "+rnum;
 
             Boolean state = true;
-            List<String> allLines = Files.readAllLines(Paths.get("transactionrecord.txt"));
+            List<String> allLines = Files.readAllLines(Paths.get("files/transactionrecord.txt"));
             for (String fileLine : allLines) {
                 if(currentLine.equals(fileLine)){
                     state = false;
@@ -276,7 +277,7 @@ class MyFrame
             }
 
             if(state){
-                File tempFile = new File("temp.txt");
+                File tempFile = new File("files/temp.txt");
                 PrintWriter pw = new PrintWriter(tempFile);
 
                 pw.println(currentLine);
