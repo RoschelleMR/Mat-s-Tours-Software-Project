@@ -5,6 +5,8 @@ import javax.swing.JFrame;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -18,8 +20,7 @@ public class UserInterface extends JFrame{
 
     private JPanel buttonPanel, mainPanel;
     private JComboBox userBox, periodBox, presenceBox;
-    private JButton saveButton;
-    private JButton closeButton;
+    private JButton saveButton, changePassButton, closeButton;
 
     private JTextField txtPassword;
 
@@ -46,9 +47,14 @@ public class UserInterface extends JFrame{
         saveButton.addActionListener(new saveListener());
         buttonPanel.add(saveButton);
 
+        changePassButton = new JButton("Change Password");
+        changePassButton.addActionListener(new changePassListener());
+        buttonPanel.add(changePassButton);
+
         closeButton = new JButton("Close");
         closeButton.addActionListener(new closeButtonListener());
         buttonPanel.add(closeButton);
+
 
         add(mainPanel, BorderLayout.CENTER);
         add(buttonPanel, BorderLayout.SOUTH);
@@ -106,6 +112,8 @@ public class UserInterface extends JFrame{
 
     }
 
+    
+
 
 
 
@@ -133,5 +141,12 @@ public class UserInterface extends JFrame{
         }
     }
 
+    private class changePassListener implements ActionListener
+    {
+        public void actionPerformed(ActionEvent e)
+        {
+            new ChangePasswordScreen();
+        }
+    }
 
 }
