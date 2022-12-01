@@ -6,7 +6,7 @@ import java.util.Calendar;
 
 import javax.swing.JFormattedTextField.AbstractFormatter;
 
-/* This class will format the dates into a particular format. Eg. th default format is
+/* This class will format the dates into a particular format. Eg. the default format is
     Sat Nov 26 15:34:16 EST 2022, this class will change it to 2022-11-26
 */ 
 
