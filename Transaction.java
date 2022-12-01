@@ -1,6 +1,4 @@
-// Java program to implement
-// a Simple Registration Form
-// using Java Swing
+
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -21,7 +19,7 @@ import java.util.List;
 
 
 import javax.swing.*;
-//import javax.xml.catalog.GroupEntry.PreferType;
+
 
 import java.awt.*;
 import java.awt.event.*;
@@ -87,8 +85,7 @@ class MyFrame
 	private String paytype[]
 			= { "Cash", "Wire Transfer" };		
 
-	// constructor, to initialize the components
-	// with default values.
+	
 	public MyFrame()
 	{
 		setTitle("Record Payments");
@@ -119,7 +116,7 @@ class MyFrame
 		mno.setSize(150, 20);
 		mno.setLocation(100, 150);
 		c.add(mno);
-		mno.setInputVerifier(fieldVerifier);
+		
 
 		tmno = new JTextField();
 		tmno.setSize(150, 20);
@@ -223,7 +220,8 @@ class MyFrame
 			
 			
 			addTransaction("transactionrecord.txt",studentName,money,ddate,plan,ptype,rnum);	
-			
+			dispose();
+            setVisible(false);
             
 		}
 
@@ -244,20 +242,6 @@ class MyFrame
 	}
 	
 
-	InputVerifier fieldVerifier = new InputVerifier() {
-        @Override
-        public boolean verify(JComponent input) {
-            JTextField temp = (JTextField)input;
-            try {
-                int number = Integer.parseInt(temp.getText());
-                return true;
-            }
-            catch(NumberFormatException e) {
-                JOptionPane.showMessageDialog(c, "You MUST input only numbers!");
-            }
-            return false;
-        }
-    };
 
 
 	public void addTransaction(String transactionrecord, String studentName, String money, String ddate, String plan, String ptype, String rnum){
@@ -314,7 +298,7 @@ class MyFrame
 
 
 
-// Driver Code
+
 class Transaction {
 
 	public static void main(String[] args) throws Exception
