@@ -26,13 +26,21 @@ public class StudentListing extends JFrame{
     private JTable table;
     private JLabel searchLabel , cbLabel, cbLabel2;
     private JTextField searchField;
-    private JButton searchButton;
+    private JButton searchButton, exitButton;
     private JComboBox comboBox;
     private JComboBox comboBoxP;
+
+    private JMenuBar menu;
+    private JMenu privilegesJMenu;
+    private JMenuItem attendanceItem, transItem;
+
     private TableRowSorter<DefaultTableModel> sorter;
 
-    public StudentListing()
+    private UserInterface uInterface;
+
+    public StudentListing(UserInterface userInterface)
     {
+        uInterface = userInterface;
 
         String s1[] = {"None", "Manchester High School", "Belair High School", "Bishop Gibson High School", "Decarteret College"};
 
@@ -47,6 +55,39 @@ public class StudentListing extends JFrame{
         
         //CREATE ELEMENTS
         JPanel panel = new JPanel();
+
+        //MenuBar
+        menu = new JMenuBar();
+        menu.setBackground(new Color(15,50,100));
+
+        JLabel menuTitle = new JLabel();
+        menuTitle.setText("MAT'S TOURS BUS DRIVER");
+        menuTitle.setFont(new Font("Ariel",Font.BOLD,12));
+        menuTitle.setForeground(Color.WHITE);
+        menu.add(menuTitle);
+        
+        
+
+
+        privilegesJMenu=new JMenu("Privileges"); 
+        privilegesJMenu.setBackground(Color.white);
+        privilegesJMenu.setOpaque(true);
+
+
+        attendanceItem = new JMenuItem("Attendance Register");
+        attendanceItem.addActionListener(new attendanceListener());
+        privilegesJMenu.add(attendanceItem);
+        
+        transItem = new JMenuItem("Transcations");
+        transItem.addActionListener(new transcationListener());
+        privilegesJMenu.add(transItem);
+
+
+        menu.add(privilegesJMenu);
+        setJMenuBar(menu);
+
+        //End of MenuBar
+
         searchLabel = new JLabel("Search By Name:");
         searchLabel.setForeground(Color.white);
         searchLabel.setFont(new Font("Serif", Font.BOLD, 16));
@@ -162,8 +203,20 @@ public class StudentListing extends JFrame{
         }
     }
 
-    public static void main(String[] args) {    
-        new StudentListing();    
+    private class attendanceListener implements ActionListener
+    {
+        public void actionPerformed(ActionEvent e)
+        {
+            new Attendance(uInterface);
+        }
+    }
+
+    private class transcationListener implements ActionListener
+    {
+        public void actionPerformed(ActionEvent e)
+        {
+            new TransactionScreen();
+        }
     }
 
 }

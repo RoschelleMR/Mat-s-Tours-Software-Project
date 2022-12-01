@@ -91,7 +91,6 @@ class MyFrame
 	{
 		setTitle("Record Payments");
 		setBounds(300, 90, 600, 500);
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setResizable(false);
 
 		c = getContentPane();
@@ -302,8 +301,7 @@ class MyFrame
 
 class TransactionScreen {
 
-	public static void main(String[] args) throws Exception
-	{
-		MyFrame f = new MyFrame();
-	}
+	
+	MyFrame f = new MyFrame();
+	
 }

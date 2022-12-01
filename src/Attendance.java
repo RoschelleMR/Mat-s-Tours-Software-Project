@@ -25,14 +25,19 @@ public class Attendance extends JFrame{
 
     private JMenuBar menu;
 
-    public Attendance(){
+    private UserInterface user;
 
+    public Attendance(UserInterface userInterface){
+        user = userInterface;
         thisScr = this;
+
+        if (user.getUser() == "Bus Monitor"){
+            setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        }
 
         setLayout(new GridLayout(1,3, 10, 0));
         setTitle("ATTENDANCE SHEET");
         setSize(1500, 550);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
         menu = new JMenuBar();
@@ -129,11 +134,6 @@ public class Attendance extends JFrame{
 
 
 
-    public static void main(String[] args) {
-
-        new Attendance();
-
-    }
 
     private ArrayList<Student> loadstudents(String studfile) {
         Scanner studscan = null;
@@ -217,7 +217,7 @@ public class Attendance extends JFrame{
                 }
                 else{
                     studNameList.add(name);
-                }
+            }
                 
             } 
 
@@ -227,7 +227,6 @@ public class Attendance extends JFrame{
         catch (IOException e) {
         }
 
-        // return studlist;
         
         String[] studNameArr = new String[studNameList.size()];
         studNameArr = studNameList.toArray(studNameArr);
@@ -263,13 +262,9 @@ public class Attendance extends JFrame{
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            // evening_model.fireTableDataChanged();
-            // morning_model.fireTableDataChanged();
-            // evening_table.revalidate();
-            // morning_table.revalidate();
 
-            thisScr.dispose();
-            new Attendance();
+            thisScr.setVisible(false);
+            new Attendance(user);
             
         }
         
@@ -279,7 +274,7 @@ public class Attendance extends JFrame{
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            thisScr.dispose();            
+            thisScr.setVisible(false);            
         }
         
     }
