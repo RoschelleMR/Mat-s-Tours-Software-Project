@@ -15,11 +15,10 @@ import java.util.List;
 public class UserInterface extends JFrame{
     
     private UserInterface thisScr;
-    private StudentListing studentlistScr;
 
 
     private JPanel buttonPanel, mainPanel;
-    private JComboBox userBox, periodBox, presenceBox;
+    private JComboBox userBox;
     private JButton saveButton, changePassButton, closeButton;
 
     private JTextField txtPassword;
