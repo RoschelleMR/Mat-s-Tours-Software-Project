@@ -206,11 +206,6 @@ public class StudentListing extends JFrame{
         return rlist;
     }
 
-
-    public static void main(String[] args) {    
-        new StudentListing();    
-    }
-
 }
    
 
