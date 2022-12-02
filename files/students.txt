@@ -1,6 +1,0 @@
-FirstName LastName house school parent number plan 
-John Cena house MHS john 876 monthly 
-Justin Gayle house MHS john 876 monthly 
-Amanda Bynes house MHS john 876 monthly 
-Beyonce Knowles house MHS john 876 monthly 
-KrisP Bacon house MHS john 876 monthly
