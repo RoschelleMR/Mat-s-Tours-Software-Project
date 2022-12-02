@@ -14,7 +14,7 @@ import java.awt.event.*;
 
 public class Attendance extends JFrame{
 
-    private ArrayList<Student> studlist;
+    private ArrayList<String> studlist;
     private Attendance thisScr; 
 
     private DefaultTableModel morning_model, evening_model;
@@ -133,22 +133,20 @@ public class Attendance extends JFrame{
 
 
 
-    private ArrayList<Student> loadstudents(String studfile) {
+    private ArrayList<String> loadstudents(String studfile) {
         Scanner studscan = null;
-        studlist = new ArrayList<Student>();
+        studlist = new ArrayList<String>();
         try {
             studscan = new Scanner(new File(studfile));
             while (studscan.hasNext()) {
                 String[] nextLine = studscan.nextLine().split(" ");
-                String name = nextLine[0] + " " + nextLine[1];
-                String address = nextLine[2];
-                String highschool = nextLine[3];
-                String parentName = nextLine[4];
-                String parentTel = nextLine[5];
-                String paymentPlan = nextLine[6];
+                String firstname = nextLine[0];
+                String lastname = nextLine[1].replace(","," ");
+                StringBuffer sb= new StringBuffer(lastname);    
+                sb.deleteCharAt(sb.length()-1);  
+                String name = nextLine[0] + " " + sb;
 
-                Student student = new Student(name, address, highschool, parentName, parentTel, paymentPlan);
-                studlist.add(student);
+                studlist.add(name);
             } 
 
             studscan.close();
@@ -161,10 +159,10 @@ public class Attendance extends JFrame{
     }
 
     public ArrayList<String> getStudentNames() {
-        studlist = loadstudents("files/students.txt");
+        studlist = loadstudents("files/addStudent.txt");
         ArrayList<String> studentNames = new ArrayList<String>();
-        for (Student stud : studlist) {
-            studentNames.add(stud.getName());
+        for (String stud : studlist) {
+            studentNames.add(stud);
         }
 
         return studentNames;
