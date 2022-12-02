@@ -205,7 +205,7 @@ class MyStudentFrame extends JFrame implements ActionListener {
             String [] next = studentName.split(" ");
             firstname = next[0];
             lastname = next[1];
-            currentLine = studentName+", Parent: "+ parentName+" , School: "+ school+" ,Payment Plan: "+plan+" ,Address: "+address + " ,Phone: " + phone;
+            currentLine = studentName+" "+ parentName+" "+ school+" "+plan+" "+address + " " + phone;
 
             Boolean state = true;
             List<String> allLines = Files.readAllLines(Paths.get("files/addStudent.txt"));
