@@ -1,4 +1,3 @@
-package src;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
@@ -22,76 +21,30 @@ import java.awt.event.ItemEvent;
  
 
 public class StudentListing extends JFrame{
+    private ArrayList<Student> rlist;
     private DefaultTableModel model;
     private JTable table;
     private JLabel searchLabel , cbLabel, cbLabel2;
     private JTextField searchField;
-    private JButton searchButton, exitButton;
+    private JButton searchButton;
     private JComboBox comboBox;
     private JComboBox comboBoxP;
-
-    private JMenuBar menu;
-    private JMenu privilegesJMenu;
-    private JMenuItem attendanceItem, transItem, addStudItem;
-
     private TableRowSorter<DefaultTableModel> sorter;
 
-    private UserInterface uInterface;
-
-    public StudentListing(UserInterface userInterface)
+    public StudentListing()
     {
-        uInterface = userInterface;
 
         String s1[] = {"None", "Manchester High School", "Belair High School", "Bishop Gibson High School", "Decarteret College"};
 
-        String s2[] = {"None", "Paid", "Unpaid"};
+        String s2[] = {"None", "Weekly", "Termly", "Monthly"};
 
-        String data[][]={ {"Roschelle Rhoden", "24 Apple Tree Lane", "Manchester High School", "Marcia Rhoden", "(876)212-3355" ,"Paul Rhoden", "(876) 789-6543", "Monthly", "Paid"},    
-                          {"Chelsea Porter", "42 Banana Tree Lane", "Manchester High School", "Charmaine Porter", "(876)210-9999","Robert Porter", "(876) 905-5443", "Weekly", "Paid"},
-                          {"Trishanna Ford","6 Orange Tree Lane", "Belair High School", "Cheryl Ford", "(876)210-7658","Robert Ford", "(876) 905-7858", "Weekly", "Unpaid"},
-                          {"Jordane Anderson","10 MangoTree Lane", "Bishop Gibson High School", "Janet Jackson", "(876)589-5658","Ricardo Anderson", "(876) 875-7553", "Termly", "Unpaid"}}; 
+        rlist = loadStudents("addStudent.txt");
 
-        String [] columnNames ={"Student's Name","Home Address", "School", "Mother's Name", "Contact Number", "Father's Name", "Contact Number", "Payment Plan", "Payment Status"};
+        
+        String [] columnNames ={"Student's Name","Home Address", "School", "Parent's Name", "Contact Number", "Payment Plan",};
         
         //CREATE ELEMENTS
         JPanel panel = new JPanel();
-
-        //MenuBar
-        menu = new JMenuBar();
-        menu.setBackground(new Color(15,50,100));
-
-        JLabel menuTitle = new JLabel();
-        menuTitle.setText("MAT'S TOURS BUS DRIVER");
-        menuTitle.setFont(new Font("Ariel",Font.BOLD,12));
-        menuTitle.setForeground(Color.WHITE);
-        menu.add(menuTitle);
-        
-        
-
-
-        privilegesJMenu=new JMenu("Privileges"); 
-        privilegesJMenu.setBackground(Color.white);
-        privilegesJMenu.setOpaque(true);
-
-
-        attendanceItem = new JMenuItem("Attendance Register");
-        attendanceItem.addActionListener(new attendanceListener());
-        privilegesJMenu.add(attendanceItem);
-        
-        transItem = new JMenuItem("Transcations");
-        transItem.addActionListener(new transcationListener());
-        privilegesJMenu.add(transItem);
-
-        addStudItem = new JMenuItem("Add Student");
-        addStudItem.addActionListener(new addStudListener());
-        privilegesJMenu.add(addStudItem);
-
-
-        menu.add(privilegesJMenu);
-        setJMenuBar(menu);
-
-        //End of MenuBar
-
         searchLabel = new JLabel("Search By Name:");
         searchLabel.setForeground(Color.white);
         searchLabel.setFont(new Font("Serif", Font.BOLD, 16));
@@ -101,26 +54,26 @@ public class StudentListing extends JFrame{
         cbLabel.setFont(new Font("Serif", Font.BOLD, 16));
         cbLabel.setForeground(Color.white);
         comboBox = new JComboBox(s1);
-        cbLabel2 = new JLabel(" Filter by Payment Status:");
+        cbLabel2 = new JLabel(" Filter by Payment Plan:");
         cbLabel2.setFont(new Font("Serif", Font.BOLD, 16));
         cbLabel2.setForeground(Color.white);
         comboBoxP = new JComboBox(s2);
-        model = new DefaultTableModel(data, columnNames);
+        model = new DefaultTableModel(columnNames, 0);
         table = new JTable(model);
+        showTable(rlist);
         JScrollPane scrollPane = new JScrollPane(table);
         scrollPane.setViewportView(table);
         sorter = new TableRowSorter<DefaultTableModel>(model);
 
         //TABLE DESIGN
-        table.getColumnModel().getColumn(0).setPreferredWidth(150); 
+        /*table.getColumnModel().getColumn(0).setPreferredWidth(150); 
         table.getColumnModel().getColumn(1).setPreferredWidth(150); 
         table.getColumnModel().getColumn(2).setPreferredWidth(250);
         table.getColumnModel().getColumn(3).setPreferredWidth(250);
         table.getColumnModel().getColumn(4).setPreferredWidth(150);
         table.getColumnModel().getColumn(5).setPreferredWidth(150);
-        table.getColumnModel().getColumn(6).setPreferredWidth(150);
-        table.getColumnModel().getColumn(7).setPreferredWidth(150);
-        table.getColumnModel().getColumn(8).setPreferredWidth(150);
+        table.getColumnModel().getColumn(6).setPreferredWidth(150);*/
+        
         //table.getColumnModel().getColumn(9).setPreferredWidth(150);
         table.setPreferredScrollableViewportSize(new Dimension(1200,650));
         table.getTableHeader().setBackground(Color.magenta);
@@ -169,7 +122,7 @@ public class StudentListing extends JFrame{
             }
             else
             {
-                RowFilter<DefaultTableModel, Object> rf  = RowFilter.regexFilter(comboBox.getSelectedItem().toString(), 3);
+                RowFilter<DefaultTableModel, Object> rf  = RowFilter.regexFilter(comboBox.getSelectedItem().toString(), 2);
                 sorter.setRowFilter(rf);
             }
             
@@ -187,7 +140,7 @@ public class StudentListing extends JFrame{
             }
             else
             {
-                RowFilter<DefaultTableModel, Object> rf  = RowFilter.regexFilter(comboBoxP.getSelectedItem().toString(), 9);
+                RowFilter<DefaultTableModel, Object> rf  = RowFilter.regexFilter(comboBoxP.getSelectedItem().toString(), 5);
                 sorter.setRowFilter(rf);
             }
         }
@@ -207,29 +160,55 @@ public class StudentListing extends JFrame{
         }
     }
 
-    private class attendanceListener implements ActionListener
+    private void showTable(ArrayList<Student> rlist)
     {
-        public void actionPerformed(ActionEvent e)
-        {
-            new Attendance(uInterface);
+        if (rlist.size() > 0) {
+            for (Student s : rlist) {
+                addToTable(s);
+            }
         }
     }
 
-    private class transcationListener implements ActionListener
-    {
-        public void actionPerformed(ActionEvent e)
-        {
-            new TransactionScreen();
-        }
+    private void addToTable(Student s) {
+        String[] item = { s.getName(), "" + s.getAddress(), "" + s.getHighSchool(), "" + s.parentName(), "" + s.parentTelNo(), "" + s.paymentPlan() };
+        model.addRow(item);
     }
 
     
-    private class addStudListener implements ActionListener
+    public void addPerson(Student s) {
+        rlist.add(s);
+        addToTable(s);
+    }
+
+    private ArrayList<Student> loadStudents(String pfile)
     {
-        public void actionPerformed(ActionEvent e)
-        {
-            new StudentFile();
+        Scanner pscan = null;
+        ArrayList<Student> rlist = new ArrayList<Student>();
+        try {
+            pscan = new Scanner(new File(pfile));
+            while (pscan.hasNext()) {
+                String[] infoLine = pscan.nextLine().split(" ");
+                String name = infoLine[0] + " " + infoLine[1];
+                String address = infoLine[8] + " " + infoLine[9] + " " + infoLine[10];
+                String school = infoLine[4] + " " + infoLine[5] + " " + infoLine[6];
+                String pname = infoLine[2] + " " + infoLine[3];
+                String pcontact = infoLine[11];
+                String pplan = infoLine[7];
+
+                Student s = new Student(name, address, school, pname, pcontact, pplan); 
+                
+                rlist.add(s);
+            }
+
+            pscan.close();
+        } catch (IOException e) {
         }
+        return rlist;
+    }
+
+
+    public static void main(String[] args) {    
+        new StudentListing();    
     }
 
 }

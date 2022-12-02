@@ -1,4 +1,4 @@
-package src;
+//package src;
 
 public class Student {
     
@@ -21,6 +21,9 @@ public class Student {
     }
 
     public String getAddress(){
+        // depends on how the "add students" functionality is built
+        // [SUGGESTED] The neighbourhood name and the town
+        // eg. Beadles Boulevard and Santa Cruz
         return address;
     }
 
