@@ -1,3 +1,5 @@
+package src;
+
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
@@ -31,14 +33,17 @@ public class StudentListing extends JFrame{
     private JComboBox comboBoxP;
     private TableRowSorter<DefaultTableModel> sorter;
 
-    public StudentListing()
+    private UserInterface userInterface;
+
+    public StudentListing(UserInterface uInterface)
     {
+        uInterface = userInterface;
 
         String s1[] = {"None", "Manchester High School", "Belair High School", "Bishop Gibson High School", "Decarteret College"};
 
         String s2[] = {"None", "Weekly", "Termly", "Monthly"};
 
-        rlist = loadStudents("addStudent.txt");
+        rlist = loadStudents("files/addStudent.txt");
 
         
         String [] columnNames ={"Student's Name","Home Address", "School", "Parent's Name", "Contact Number", "Payment Plan",};
