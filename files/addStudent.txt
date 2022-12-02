@@ -1,5 +1,5 @@
-jon jon, Parent: ben jon , School: Bishop GIbson High ,Payment Plan: Weekly ,Address: 65 Gibson Drive ,Phone: 876-876-8766
-Nen Jen, Parent: Jen Jen , School: Bishop High School ,Payment Plan: Weekly ,Address: 44 Revamp Road ,Phone: 876-542-7023
-Chris Myrie, Parent: Clive Myrie , School: Glenmuir High School ,Payment Plan: Weekly ,Address: 44 Revamp Road Phone: 876-542-7023
-Farrah Porter, Parent: Paul Porter , School: Glenmuir High School Payment PlanTermly Address: 44 Apple Strt Phone: Student's Phone number
-Chelsea Porter, Parent: Student's Parent's Name , School: Glenmuir High School Payment PlanTermly Address: 44 Revamp Road Phone: Student's Phone number
+Jon Jon Ben jon Bishop Gibson High Weekly 65 Gibson Drive 876-876-8766
+Nen Jen Ben Jen Bishop High School Weekly 44 Revamp Road 876-542-7023
+Chris Myrie Clive Myrie Manchester High School Weekly 44 Revamp Road 876-542-7023
+Farrah Porter Paul Porter Manchester High School Termly 44 Apple Strt 876-549-8670
+Chelsea Porter Ricardo Anderson Belair High School Termly 44 Revamp Road 876-250-4598

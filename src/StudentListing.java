@@ -28,14 +28,18 @@ public class StudentListing extends JFrame{
     private JTable table;
     private JLabel searchLabel , cbLabel, cbLabel2;
     private JTextField searchField;
-    private JButton searchButton;
+    private JButton searchButton, exitButton;
     private JComboBox comboBox;
     private JComboBox comboBoxP;
     private TableRowSorter<DefaultTableModel> sorter;
 
-    private UserInterface userInterface;
+    private JMenuBar menu;
+    private JMenu privilegesJMenu;
+    private JMenuItem attendanceItem, transItem, addStudItem;
 
-    public StudentListing(UserInterface uInterface)
+    private UserInterface uInterface;
+
+    public StudentListing(UserInterface userInterface)
     {
         uInterface = userInterface;
 
@@ -69,6 +73,42 @@ public class StudentListing extends JFrame{
         JScrollPane scrollPane = new JScrollPane(table);
         scrollPane.setViewportView(table);
         sorter = new TableRowSorter<DefaultTableModel>(model);
+
+        //MenuBar
+        menu = new JMenuBar();
+        menu.setBackground(new Color(15,50,100));
+
+        JLabel menuTitle = new JLabel();
+        menuTitle.setText("MAT'S TOURS BUS DRIVER");
+        menuTitle.setFont(new Font("Ariel",Font.BOLD,12));
+        menuTitle.setForeground(Color.WHITE);
+        menu.add(menuTitle);
+
+
+
+
+        privilegesJMenu=new JMenu("Privileges"); 
+        privilegesJMenu.setBackground(Color.white);
+        privilegesJMenu.setOpaque(true);
+
+
+        attendanceItem = new JMenuItem("Attendance Register");
+        attendanceItem.addActionListener(new attendanceListener());
+        privilegesJMenu.add(attendanceItem);
+
+        transItem = new JMenuItem("Transcations");
+        transItem.addActionListener(new transcationListener());
+        privilegesJMenu.add(transItem);
+
+        addStudItem = new JMenuItem("Add Student");
+        addStudItem.addActionListener(new addStudListener());
+        privilegesJMenu.add(addStudItem);
+
+
+        menu.add(privilegesJMenu);
+        setJMenuBar(menu);
+
+        //End of MenuBar
 
         //TABLE DESIGN
         /*table.getColumnModel().getColumn(0).setPreferredWidth(150); 
@@ -209,6 +249,30 @@ public class StudentListing extends JFrame{
         } catch (IOException e) {
         }
         return rlist;
+    }
+
+    private class attendanceListener implements ActionListener
+    {
+        public void actionPerformed(ActionEvent e)
+        {
+            new Attendance(uInterface);
+        }
+    }
+
+    private class transcationListener implements ActionListener
+    {
+        public void actionPerformed(ActionEvent e)
+        {
+            new TransactionScreen();
+        }
+    }
+
+    private class addStudListener implements ActionListener
+    {
+        public void actionPerformed(ActionEvent e)
+        {
+            new StudentFile();
+        }
     }
 
 }

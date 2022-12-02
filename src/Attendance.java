@@ -142,9 +142,7 @@ public class Attendance extends JFrame{
                 String[] nextLine = studscan.nextLine().split(" ");
                 String firstname = nextLine[0];
                 String lastname = nextLine[1];
-                StringBuffer sb= new StringBuffer(lastname);    
-                sb.deleteCharAt(sb.length()-1);  
-                String name = nextLine[0] + " " + sb;
+                String name = firstname + " " + lastname;
 
                 studlist.add(name);
             } 
